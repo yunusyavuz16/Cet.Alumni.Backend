@@ -20,4 +20,5 @@ public class RegisterViewModel
     [Required]
     [StringLength(255, MinimumLength = 6)]
     public string Password { get; set; }
+    
 }

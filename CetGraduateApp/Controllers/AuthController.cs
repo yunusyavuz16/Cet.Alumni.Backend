@@ -1,9 +1,8 @@
-using CetGraduateApp.Context;
 using CetGraduateApp.Entities;
 using CetGraduateApp.Helpers;
+using CetGraduateApp.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using CetGraduateApp.Models;
 using Microsoft.Extensions.Options;
 
 namespace CetGraduateApp.Controllers;
@@ -15,13 +14,11 @@ public class AuthController : ControllerBase
 {
     private readonly JWTSettings _jwtSettings;
 
-    private readonly GraduateDbContext _context;
     private readonly UserManager _userManager;
 
 
-    public AuthController(IOptions<JWTSettings> jwtSettings, GraduateDbContext context, UserManager userManager)
+    public AuthController(IOptions<JWTSettings> jwtSettings, UserManager userManager)
     {
-        _context = context;
         _userManager = userManager;
 
         _jwtSettings = jwtSettings.Value;
@@ -58,7 +55,8 @@ public class AuthController : ControllerBase
         var token = _authManager.GenerateJwtToken(user);
 
         // Return the token (and optionally additional user details)
-        return Ok(new { Token = token, UserId = user.UserId, UserName = $"{user.FirstName} {user.LastName}" });
+        return Ok(
+            new { Token = token, UserId = user.UserId, FirstName = user.FirstName, LastName = user.LastName });
     }
 
 
@@ -89,6 +87,7 @@ public class AuthController : ControllerBase
             Password = _authManager.HashPassword(model.Password),
             CreatedDateTime = DateTime.UtcNow,
             IsVerified = false,
+            UserPrivacySettingId = 1
         };
 
         await _userManager.CreateUserAsync(newUser);
@@ -97,6 +96,9 @@ public class AuthController : ControllerBase
         // var verificationLink = _authManager.GenerateVerificationLink(dbUser);  
         // var emailBody = $"Click the following link to verify your email: {verificationLink}";
         // await _emailService.SendEmailAsync(newUser.EmailAddress, "Email Verification", emailBody);
+
+        // Generate a JWT token and put to return object
+
 
         return Ok(new { Message = "Registration successful", Code = 200 });
     }

@@ -17,7 +17,7 @@ IConfiguration configuration = builder.Configuration;
 
 var connectionString = configuration.GetConnectionString("RdsConnectionString").ToString();
 
-builder.Services.AddDbContext<GraduateDbContext>(options =>
+builder.Services.AddDbContext<AlumniDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 

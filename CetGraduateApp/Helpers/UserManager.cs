@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 public class UserManager
 {
-    private readonly GraduateDbContext _context;
+    private readonly AlumniDbContext _context;
 
 
-    public UserManager(IConfiguration configuration, GraduateDbContext context)
+    public UserManager(IConfiguration configuration, AlumniDbContext context)
     {
         _context = context;
     }
