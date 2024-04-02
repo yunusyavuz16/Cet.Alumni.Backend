@@ -16,6 +16,8 @@ public partial class AlumniDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Announcement> Announcements { get; set; }
+
     public virtual DbSet<Department> Departments { get; set; }
 
     public virtual DbSet<JobPost> JobPosts { get; set; }
@@ -38,6 +40,25 @@ public partial class AlumniDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Announcement>(entity =>
+        {
+            entity.HasKey(e => e.AnnouncementId).HasName("PK__Announce__9C77CBC6627E705D");
+
+            entity.ToTable("Announcement");
+
+            entity.Property(e => e.AnnouncementId).HasColumnName("announcementId");
+            entity.Property(e => e.AnouncementDateTime).HasColumnName("anouncementDateTime");
+            entity.Property(e => e.Author)
+                .HasMaxLength(100)
+                .HasColumnName("author");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.CreatedDateTime).HasColumnName("createdDateTime");
+            entity.Property(e => e.Title)
+                .HasMaxLength(255)
+                .HasColumnName("title");
+            entity.Property(e => e.UpdatedDateTime).HasColumnName("updatedDateTime");
+        });
+
         modelBuilder.Entity<Department>(entity =>
         {
             entity.HasKey(e => e.DepartmentId).HasName("PK__Departme__F9B8346D011E4A5C");
@@ -167,10 +188,7 @@ public partial class AlumniDbContext : DbContext
             entity.Property(e => e.LastSignedInDateTime)
                 .HasColumnType("datetime")
                 .HasColumnName("lastSignedInDateTime");
-            entity.Property(e => e.Password)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("password");
+            entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.UserPrivacySettingId).HasColumnName("userPrivacySettingId");
 
             entity.HasOne(d => d.UserPrivacySetting).WithMany(p => p.Users)
