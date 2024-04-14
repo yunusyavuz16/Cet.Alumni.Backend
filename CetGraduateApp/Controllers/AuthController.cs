@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-
+        
 
         // Find the user by email
         var user = await _userManager.FindUserByEmailAsync(model.Email);
@@ -44,6 +44,12 @@ public class AuthController : ControllerBase
         if (user == null || !_authManager.VerifyPassword(model.Password, user.Password))
         {
             return Unauthorized("Invalid email or password");
+        }
+        
+        // isVerified false then return
+        if (user.IsVerified == false)
+        {
+            return BadRequest("Hesabınız henüz onaylanmadı.");
         }
 
 
@@ -56,7 +62,7 @@ public class AuthController : ControllerBase
 
         // Return the token (and optionally additional user details)
         return Ok(
-            new { Token = token, UserId = user.UserId, FirstName = user.FirstName, LastName = user.LastName });
+            new { Token = token, UserId = user.AlumniStudentNo, FirstName = user.FirstName, LastName = user.LastName });
     }
 
 
@@ -79,7 +85,7 @@ public class AuthController : ControllerBase
         var _authManager = new AuthManager(_jwtSettings);
 
         // Create a new user
-        var newUser = new User()
+        var newUser = new Alumni()
         {
             FirstName = model.FirstName,
             LastName = model.LastName,
@@ -87,17 +93,23 @@ public class AuthController : ControllerBase
             Password = _authManager.HashPassword(model.Password),
             CreatedDateTime = DateTime.UtcNow,
             IsVerified = false,
-            UserPrivacySettingId = 1
+            AlumniPrivacySettingId = model.AlumniPrivacySettingId,
+            Sector = model.Sector,
+            Company = model.Company,
+            JobTitle = model.JobTitle,
+            AlumniStudentNo = model.AlumniStudentNo,
+            TermId = model.TermId,
+            ProfileDescription = model.AlumniProfileDescription
         };
 
         await _userManager.CreateUserAsync(newUser);
 
-        //var dbUser = await _userManager.FindUserByEmailAsync(model.Email);
-        // var verificationLink = _authManager.GenerateVerificationLink(dbUser);  
-        // var emailBody = $"Click the following link to verify your email: {verificationLink}";
-        // await _emailService.SendEmailAsync(newUser.EmailAddress, "Email Verification", emailBody);
+//var dbUser = await _userManager.FindUserByEmailAsync(model.Email);
+// var verificationLink = _authManager.GenerateVerificationLink(dbUser);  
+// var emailBody = $"Click the following link to verify your email: {verificationLink}";
+// await _emailService.SendEmailAsync(newUser.EmailAddress, "Email Verification", emailBody);
 
-        // Generate a JWT token and put to return object
+// Generate a JWT token and put to return object
 
 
         return Ok(new { Message = "Registration successful", Code = 200 });

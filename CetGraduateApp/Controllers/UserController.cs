@@ -36,6 +36,9 @@ public class UserController : ControllerBase
 
         // return 
         return Ok(new
-            { UserId = user.UserId, FirstName = user.FirstName, LastName = user.LastName, Email = user.EmailAddress });
+        {
+            AlumniStudentNo = user.AlumniStudentNo, FirstName = user.FirstName, LastName = user.LastName,
+            Email = user.EmailAddress
+        });
     }
 }

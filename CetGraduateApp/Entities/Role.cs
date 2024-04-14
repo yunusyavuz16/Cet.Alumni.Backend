@@ -7,11 +7,9 @@ public partial class Role
 {
     public int RoleId { get; set; }
 
-    public string DisplayName { get; set; } = null!;
+    public string? DisplayName { get; set; }
 
-    public string RoleCode { get; set; } = null!;
+    public bool? IsAdmin { get; set; }
 
-    public DateTime CreateDateTime { get; set; }
-
-    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    public virtual ICollection<AlumniRole> AlumniRoles { get; set; } = new List<AlumniRole>();
 }

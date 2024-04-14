@@ -31,7 +31,7 @@ public class AuthManager
         return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
     }
 
-    public string GenerateJwtToken(User user)
+    public string GenerateJwtToken(Alumni user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -41,7 +41,7 @@ public class AuthManager
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()), // Adding userId claim
+                new Claim(ClaimTypes.NameIdentifier, user.AlumniStudentNo.ToString()), // Adding userId claim
             }),
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
