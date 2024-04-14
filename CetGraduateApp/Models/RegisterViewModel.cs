@@ -4,9 +4,7 @@ namespace CetGraduateApp.Models;
 
 public class RegisterViewModel
 {
-    [Required]
-    [StringLength(10, MinimumLength = 10)]
-    public int AlumniStudentNo { get; set; }
+    [Required] public int AlumniStudentNo { get; set; }
 
     [Required] [StringLength(50)] public string FirstName { get; set; }
 

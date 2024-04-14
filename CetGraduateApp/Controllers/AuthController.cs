@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        
+
 
         // Find the user by email
         var user = await _userManager.FindUserByEmailAsync(model.Email);
@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
         {
             return Unauthorized("Invalid email or password");
         }
-        
+
         // isVerified false then return
         if (user.IsVerified == false)
         {
@@ -101,8 +101,14 @@ public class AuthController : ControllerBase
             TermId = model.TermId,
             ProfileDescription = model.AlumniProfileDescription
         };
-
-        await _userManager.CreateUserAsync(newUser);
+        try
+        {
+            await _userManager.CreateUserAsync(newUser);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { Message = e.Message, Code = 400 });
+        }
 
 //var dbUser = await _userManager.FindUserByEmailAsync(model.Email);
 // var verificationLink = _authManager.GenerateVerificationLink(dbUser);  

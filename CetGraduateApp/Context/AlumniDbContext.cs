@@ -32,6 +32,8 @@ public partial class AlumniDbContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Term> Terms { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=awseb-e-qmfumqmr8e-stack-awsebrdsdatabase-nqhgplsmjxpx.chbgdpvcdxf8.eu-north-1.rds.amazonaws.com,1433;Integrated Security=false;User ID=db_alumni_user;Password=alumniStrongPassword@1234!;Database=AlumniRdsDb;Encrypt=False;");
@@ -75,7 +77,6 @@ public partial class AlumniDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("lastSignedInDateTime");
             entity.Property(e => e.Password)
-                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("password");
             entity.Property(e => e.ProfileDescription)
@@ -89,18 +90,21 @@ public partial class AlumniDbContext : DbContext
 
             entity.HasOne(d => d.AlumniPrivacySetting).WithMany(p => p.Alumni)
                 .HasForeignKey(d => d.AlumniPrivacySettingId)
-                .HasConstraintName("FK__Alumni__alumniPr__72C60C4A");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("alumniPrivacySettingId_constraint");
+
+            entity.HasOne(d => d.Term).WithMany(p => p.Alumni)
+                .HasForeignKey(d => d.TermId)
+                .HasConstraintName("FK_term");
         });
 
         modelBuilder.Entity<AlumniPrivacySetting>(entity =>
         {
-            entity.HasKey(e => e.AlumniPrivacySettingId).HasName("PK__AlumniPr__15D64E29499DF9DD");
+            entity.HasKey(e => e.AlumniPrivacySettingId).HasName("PK__AlumniPr__15D64E291688773D");
 
             entity.ToTable("AlumniPrivacySetting");
 
-            entity.Property(e => e.AlumniPrivacySettingId)
-                .ValueGeneratedNever()
-                .HasColumnName("alumniPrivacySettingId");
+            entity.Property(e => e.AlumniPrivacySettingId).HasColumnName("alumniPrivacySettingId");
             entity.Property(e => e.DisplayName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -228,6 +232,16 @@ public partial class AlumniDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("displayName");
             entity.Property(e => e.IsAdmin).HasColumnName("isAdmin");
+        });
+
+        modelBuilder.Entity<Term>(entity =>
+        {
+            entity.HasKey(e => e.TermId).HasName("PK__Term__90C2BD1EA4BD5776");
+
+            entity.ToTable("Term");
+
+            entity.Property(e => e.TermId).HasColumnName("termId");
+            entity.Property(e => e.TermYear).HasColumnName("termYear");
         });
 
         OnModelCreatingPartial(modelBuilder);

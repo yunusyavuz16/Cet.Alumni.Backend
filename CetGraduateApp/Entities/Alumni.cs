@@ -33,11 +33,13 @@ public partial class Alumni
 
     public string? JobTitle { get; set; }
 
-    public int? AlumniPrivacySettingId { get; set; }
+    public int AlumniPrivacySettingId { get; set; }
 
-    public virtual AlumniPrivacySetting? AlumniPrivacySetting { get; set; }
+    public virtual AlumniPrivacySetting AlumniPrivacySetting { get; set; } = null!;
 
     public virtual ICollection<AlumniRegistration> AlumniRegistrations { get; set; } = new List<AlumniRegistration>();
 
     public virtual ICollection<AlumniRole> AlumniRoles { get; set; } = new List<AlumniRole>();
+
+    public virtual Term? Term { get; set; }
 }
