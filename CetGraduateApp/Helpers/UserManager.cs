@@ -21,58 +21,59 @@ public class UserManager
 
     // User-related operations
 
-    public async Task<User?> GetUserByIdAsync(int userId)
+    public async Task<Alumni?> GetUserByIdAsync(int alumniStudentNo)
     {
-        return await _context.Users.FindAsync(userId);
+        return await _context.Alumni.FindAsync(alumniStudentNo);
     }
 
-    public async Task<List<User>> GetAllUsersAsync()
+
+    public async Task<List<Alumni>> GetAllUsersAsync()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Alumni.ToListAsync();
     }
 
-    public async Task CreateUserAsync(User user)
+    public async Task CreateUserAsync(Alumni alumni)
     {
-        _context.Users.Add(user);
+        _context.Alumni.Add(alumni);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateUserAsync(User user)
+    public async Task UpdateUserAsync(Alumni user)
     {
         _context.Entry(user).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteUserAsync(int userId)
+    public async Task DeleteUserAsync(int alumniStudentNo)
     {
-        var user = await _context.Users.FindAsync(userId);
+        var user = await _context.Alumni.FindAsync(alumniStudentNo);
         if (user != null)
         {
-            _context.Users.Remove(user);
+            _context.Alumni.Remove(user);
             await _context.SaveChangesAsync();
         }
     }
 
 
-    public async Task<User?> FindUserByEmailAsync(string email)
+    public async Task<Alumni?> FindUserByEmailAsync(string email)
     {
         // Perform a case-insensitive search for the user with the specified email
-        return await _context.Users
+        return await _context.Alumni
             .FirstOrDefaultAsync(u => u.EmailAddress.Equals(email));
     }
 
-    public async Task AddUserRegistrationAsync(UserRegistration userRegistration)
+    public async Task AddUserRegistrationAsync(AlumniRegistration userRegistration)
     {
         // Perform a case-insensitive search for the user with the specified email
 
-        _context.UserRegistrations.Add(userRegistration);
+        _context.AlumniRegistrations.Add(userRegistration);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<UserRegistration?> GetLastVerificationCodeAsync(int userId)
+    public async Task<AlumniRegistration?> GetLastVerificationCodeAsync(int userId)
     {
-        return await _context.UserRegistrations
-            .Where(ur => ur.UserId == userId)
+        return await _context.AlumniRegistrations
+            .Where(ur => ur.AlumniStudentNo == userId)
             .OrderByDescending(ur => ur.CreateDateTime)
             .FirstOrDefaultAsync();
     }
