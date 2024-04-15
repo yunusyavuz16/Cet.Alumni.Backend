@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace CetGraduateApp.Controllers;
 
-[EnableCors("AllowAnyOrigin")]
+[EnableCors("AllowSpecificOrigin")]
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase

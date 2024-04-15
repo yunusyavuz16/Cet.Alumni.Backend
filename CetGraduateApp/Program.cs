@@ -9,7 +9,14 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -51,12 +58,12 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAnyOrigin",
+    options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
+            builder.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
 });
 
@@ -72,7 +79,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAnyOrigin");
+app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
 
