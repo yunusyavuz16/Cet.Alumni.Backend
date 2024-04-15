@@ -240,6 +240,8 @@ public partial class AlumniDbContext : DbContext
 
             entity.ToTable("Term");
 
+            entity.HasIndex(e => e.TermYear, "UC_ColumnName").IsUnique();
+
             entity.Property(e => e.TermId).HasColumnName("termId");
             entity.Property(e => e.TermYear).HasColumnName("termYear");
         });

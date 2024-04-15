@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CetGraduateApp.Controllers;
 
-[EnableCors("AllowAnyOrigin")]
+[EnableCors("AllowSpecificOrigin")]
 [ApiController]
 [Route("api/announcement")]
 public class AnnouncementController : ControllerBase

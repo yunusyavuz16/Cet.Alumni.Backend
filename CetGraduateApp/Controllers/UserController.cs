@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CetGraduateApp.Controllers;
 
-[EnableCors("AllowAnyOrigin")]
+[EnableCors("AllowSpecificOrigin")]
 [ApiController]
 [Route("api/user")]
 [Authorize]
