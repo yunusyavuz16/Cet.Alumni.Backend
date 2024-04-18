@@ -48,6 +48,9 @@ public partial class AlumniDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("alumniStudentNo");
             entity.Property(e => e.AlumniPrivacySettingId).HasColumnName("alumniPrivacySettingId");
+            entity.Property(e => e.BirthDate)
+                .HasColumnType("date")
+                .HasColumnName("birthDate");
             entity.Property(e => e.Company)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -76,6 +79,10 @@ public partial class AlumniDbContext : DbContext
             entity.Property(e => e.LastSignedInDateTime)
                 .HasColumnType("datetime")
                 .HasColumnName("lastSignedInDateTime");
+            entity.Property(e => e.LinkedInUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("linkedInUrl");
             entity.Property(e => e.Password)
                 .IsUnicode(false)
                 .HasColumnName("password");
