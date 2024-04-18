@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+using CetGraduateApp.Entities;
 
-namespace CetGraduateApp.Entities;
-
-public partial class Alumni
+public class AlumniViewModel
 {
     public int AlumniStudentNo { get; set; }
 
@@ -13,13 +10,6 @@ public partial class Alumni
 
     public string? EmailAddress { get; set; }
 
-    public string? Password { get; set; }
-
-    public bool? IsVerified { get; set; }
-
-    public DateTime? CreatedDateTime { get; set; }
-
-    public DateTime? LastSignedInDateTime { get; set; }
 
     public int? DepartmentId { get; set; }
 
@@ -40,10 +30,6 @@ public partial class Alumni
     public string? LinkedInUrl { get; set; }
 
     public virtual AlumniPrivacySetting AlumniPrivacySetting { get; set; } = null!;
-
-    public virtual ICollection<AlumniRegistration> AlumniRegistrations { get; set; } = new List<AlumniRegistration>();
-
-    public virtual ICollection<AlumniRole> AlumniRoles { get; set; } = new List<AlumniRole>();
 
     public virtual Term? Term { get; set; }
 }

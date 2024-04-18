@@ -62,7 +62,11 @@ public class AuthController : ControllerBase
 
         // Return the token (and optionally additional user details)
         return Ok(
-            new { Token = token, UserId = user.AlumniStudentNo, FirstName = user.FirstName, LastName = user.LastName });
+            new
+            {
+                Token = token, UserId = user.AlumniStudentNo, FirstName = user.FirstName, LastName = user.LastName,
+                StudentNo = user.AlumniStudentNo
+            });
     }
 
 
