@@ -28,6 +28,8 @@ public partial class AlumniDbContext : DbContext
 
     public virtual DbSet<Department> Departments { get; set; }
 
+    public virtual DbSet<JobPost> JobPosts { get; set; }
+
     public virtual DbSet<JobPostType> JobPostTypes { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -201,6 +203,57 @@ public partial class AlumniDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("displayName");
+        });
+
+        modelBuilder.Entity<JobPost>(entity =>
+        {
+            entity.HasKey(e => e.JobPostId).HasName("PK__JobPost__E4C3B7C78AE5C28B");
+
+            entity.ToTable("JobPost");
+
+            entity.Property(e => e.JobPostId).HasColumnName("jobPostId");
+            entity.Property(e => e.CompanyName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("companyName");
+            entity.Property(e => e.ContactFullName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("contactFullName");
+            entity.Property(e => e.ContactInfo)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("contactInfo");
+            entity.Property(e => e.DatePosted)
+                .HasColumnType("date")
+                .HasColumnName("datePosted");
+            entity.Property(e => e.Deadline)
+                .HasColumnType("date")
+                .HasColumnName("deadline");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.JobPostTypeId).HasColumnName("jobPostTypeId");
+            entity.Property(e => e.Location)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("location");
+            entity.Property(e => e.PublisherStudentNo).HasColumnName("publisherStudentNo");
+            entity.Property(e => e.Requirements)
+                .HasColumnType("text")
+                .HasColumnName("requirements");
+            entity.Property(e => e.Responsibilities)
+                .HasColumnType("text")
+                .HasColumnName("responsibilities");
+            entity.Property(e => e.Title)
+                .HasMaxLength(255)
+                .HasColumnName("title");
+
+            entity.HasOne(d => d.JobPostType).WithMany(p => p.JobPosts)
+                .HasForeignKey(d => d.JobPostTypeId)
+                .HasConstraintName("FK__JobPost__jobPost__0B91BA14");
+
+            entity.HasOne(d => d.PublisherStudentNoNavigation).WithMany(p => p.JobPosts)
+                .HasForeignKey(d => d.PublisherStudentNo)
+                .HasConstraintName("FK__JobPost__publish__0A9D95DB");
         });
 
         modelBuilder.Entity<JobPostType>(entity =>
