@@ -26,7 +26,7 @@ public class RegisterViewModel
 
     [Required] public int TermId { get; set; }
 
-    [Required] [StringLength(100)] public string JobTitle { get; set; }
+    [StringLength(100)] public string JobTitle { get; set; }
 
     [StringLength(100)] public string Sector { get; set; }
 
