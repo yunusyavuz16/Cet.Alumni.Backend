@@ -100,7 +100,7 @@ public class AuthController : ControllerBase
             AlumniPrivacySettingId = model.AlumniPrivacySettingId,
             Sector = model.Sector,
             Company = model.Company,
-            JobTitle = model.JobTitle,
+            JobTitle = model.JobTitle ?? "-",
             AlumniStudentNo = model.AlumniStudentNo,
             TermId = model.TermId,
             ProfileDescription = model.AlumniProfileDescription

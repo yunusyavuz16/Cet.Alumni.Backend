@@ -7,17 +7,31 @@ public partial class JobPost
 {
     public int JobPostId { get; set; }
 
-    public string Title { get; set; } = null!;
+    public string? Title { get; set; }
 
-    public string? InformationDetail { get; set; }
+    public string? Description { get; set; }
 
-    public int UserId { get; set; }
+    public string? CompanyName { get; set; }
 
-    public int JobPostTypeId { get; set; }
+    public string? Location { get; set; }
 
-    public DateTime CreateDateTime { get; set; }
+    public int? PublisherStudentNo { get; set; }
 
-    public virtual JobPostType JobPostType { get; set; } = null!;
+    public int? JobPostTypeId { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public DateTime? DatePosted { get; set; }
+
+    public DateTime? Deadline { get; set; }
+
+    public string? Requirements { get; set; }
+
+    public string? Responsibilities { get; set; }
+
+    public string? ContactInfo { get; set; }
+
+    public string? ContactFullName { get; set; }
+
+    public virtual JobPostType? JobPostType { get; set; }
+
+    public virtual Alumni? PublisherStudentNoNavigation { get; set; }
 }

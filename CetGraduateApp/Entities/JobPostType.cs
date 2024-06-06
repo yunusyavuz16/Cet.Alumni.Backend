@@ -12,4 +12,6 @@ public partial class JobPostType
     public string TypeCode { get; set; } = null!;
 
     public DateTime CreateDateTime { get; set; }
+
+    public virtual ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
 }

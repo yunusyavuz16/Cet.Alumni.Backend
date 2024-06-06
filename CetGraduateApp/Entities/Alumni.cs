@@ -45,5 +45,7 @@ public partial class Alumni
 
     public virtual ICollection<AlumniRole> AlumniRoles { get; set; } = new List<AlumniRole>();
 
+    public virtual ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
+
     public virtual Term? Term { get; set; }
 }
